@@ -1,0 +1,228 @@
+{% extends "nav.html" %}
+{% block content %}
+{% load static %}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+    background: #f0f4f7;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container-main {
+    margin-top: 40px;
+}
+
+/* Card Styling */
+.card-left, .card-right {
+    border-radius: 18px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+    padding: 25px;
+    background: #fff;
+    margin-bottom: 25px;
+}
+
+.card-left {
+    background: linear-gradient(135deg, #e9f7ff, #ffffff);
+}
+
+.card-right {
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+}
+
+.header-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #007bff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Price Highlight */
+.highlight-price {
+    background: linear-gradient(135deg, #ff512f, #dd2476);
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 18px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* Info Cards */
+.info-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin-bottom: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.info-label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 3px;
+    color: #333;
+}
+
+/* Button Styles */
+.btn-custom {
+    background: #007bff;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 10px 14px;
+    transition: 0.3s;
+}
+
+.btn-custom:hover {
+    background: #0056b3;
+}
+
+/* Toggle Button */
+.btn-view-models {
+    background: #007bff;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 8px;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    transition: 0.3s;
+    margin-bottom: 10px;
+}
+
+.btn-view-models:hover {
+    background: #0056b3;
+}
+
+/* Predictions Table */
+.predictions-table th {
+    background: #007bff;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.predictions-table td {
+    background: #fdfdfd;
+    color: black;
+    font-weight: 500;
+    vertical-align: middle;
+}
+
+.predictions-table tr.best-model td {
+    background: #2ecc71;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+    animation: glow 1.5s infinite alternate;
+}
+
+/* Glow Effect */
+@keyframes glow {
+  from { box-shadow: 0 0 8px #27ae60; }
+  to { box-shadow: 0 0 16px #2ecc71; }
+}
+
+#model-performance {
+    display: none;
+}
+
+/* Bottom Buttons */
+.bottom-btns .btn-custom {
+    margin: 5px;
+    min-width: 160px;
+}
+</style>
+
+<div class="container container-main">
+    <div class="row">
+        <!-- Left Panel: Prediction -->
+        <div class="col-lg-6">
+            <div class="card-left">
+                <h3 class="header-title">🏡 Prediction Details</h3>
+                <div class="highlight-price">
+                    ₹ {{ price_formatted }} 
+                </div>
+                <div class="info-card">
+                    <div class="info-label"><i class="fas fa-map-marker-alt"></i> Location</div>
+                    <div>{{ location }}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label"><i class="fas fa-ruler-combined"></i> Total Sqft</div>
+                    <div>{{ sqft }}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label"><i class="fas fa-building"></i> Area Type</div>
+                    <div>{{ area_type }}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label"><i class="fas fa-bed"></i> BHK</div>
+                    <div>{{ bhk }}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label"><i class="fas fa-bath"></i> Bathrooms</div>
+                    <div>{{ bath }}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Average Price per Sqft (₹)</div>
+                    <div>{{ price_per_sqft }}</div>
+                </div>
+
+                <!-- Chatbot Button -->
+                <div class="chatbot-box text-center mt-3">
+                    <a href="/chatbot" class="btn btn-custom w-100"><i class="fas fa-robot"></i> Chat with Assistant</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Model Performance -->
+        <div class="col-lg-6">
+            <div class="card-right">
+                <h3 class="header-title text-center">📊 Model Performance</h3>
+                <button class="btn-view-models" onclick="toggleModels()">View / Hide Model Performance</button>
+                <div id="model-performance" class="mt-3">
+                    <table class="table table-bordered text-center predictions-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Train Accuracy (%)</th>
+                                <th>Test Accuracy (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Linear Regression</td><td>91.27</td><td>80.49</td></tr>
+                            <tr><td>Decision Tree</td><td>99.99</td><td>76.64</td></tr>
+                            <tr><td>Random Forest</td><td>96.53</td><td>79.66</td></tr>
+                            <tr class="best-model"><td>XGBoost (Best)</td><td>95.94</td><td>80.94</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Buttons -->
+    <div class="row">
+        <div class="col text-center mt-3 bottom-btns">
+            <a href="/data" class="btn btn-custom"><i class="fas fa-sync"></i> New Prediction</a>
+            <a href="/feedback" class="btn btn-custom"><i class="fas fa-comment-dots"></i> Feedback</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleModels() {
+    var x = document.getElementById('model-performance');
+    x.style.display = (x.style.display === 'none' || x.style.display === '') ? 'block' : 'none';
+}
+</script>
+
+{% endblock %}

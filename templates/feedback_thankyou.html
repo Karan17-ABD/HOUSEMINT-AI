@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thank You - HouseMintAI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap & Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0f7fa, #ffffff);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .thankyou-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            margin: 80px auto;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .thankyou-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .thankyou-card h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #004d40;
+            margin-bottom: 20px;
+        }
+
+        .thankyou-card p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .btn-home {
+            background-color: #00796b;
+            color: white;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-home:hover {
+            background-color: #004d40;
+            color: #fff;
+        }
+
+        .thankyou-emoji {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .thankyou-card {
+                margin: 30px 20px;
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="thankyou-card">
+        <div class="thankyou-emoji">🎉</div>
+        <h2>Thank You for Your Feedback!</h2>
+        <p>Your thoughts have been received and will help us improve <strong>HouseMintAI</strong>.</p>
+        <a href="index" class="btn-home">🏠 Go Back to Home</a>
+
+    </div>
+
+</body>
+</html>

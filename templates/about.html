@@ -1,0 +1,130 @@
+{% extends "nav.html" %}
+{% block content %}
+{% load static %}
+<!-- about section -->
+
+  <section class="about_section layout_padding-bottom">
+    <div class="square-box">
+      <img src="{% static 'images/square.png' %}" alt="">
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="img-box">
+            <img src="{% static 'images/ap3.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="detail-box">
+            <div class="heading_container">
+              <h2>
+                About Our Apartment
+              </h2>
+            </div>
+            <p>
+              There are 2 BHK, 3 BHK flats available accross Bengaluru. Our flats in Bengaluru offer not just a home, but a lifestyle upgrade. With a strategic location, top-notch security, and a host of amenities designed for comfort and convenience, these flats are the epitome of modern living. Elevate your living experience and make your new home. An apartment building or block of flats may have a few or many apartments. Each apartment is a separate room or set of rooms for people to live in. Sometimes an apartment will only be one small room, and tenants will have to share other rooms like the bathroom and kitchen. Other times, tenants will only share an entrance hallway with different doors leading to each apartment. This shared area is often cared for by a janitor or caretaker.
+
+              An apartment complex or housing estate is a group of apartment buildings. In an apartment complex, all of the apartment buildings are usually made in a similar way. Contact us today to schedule a site visit.
+            </p>
+            <a href="contact">
+             Contact Us
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end about section -->
+
+  <!-- info section -->
+<section class="info_section">
+  <div class="container">
+    <div class="row">
+      <!-- About Project -->
+      <div class="col-md-3">
+        <div class="info_contact">
+          <h5>About Project</h5>
+          <div>
+            <div class="img-box">
+              <img src="{% static 'images/location.png' %}" width="18px" alt="Location Icon">
+            </div>
+            <p>Department of MCA, VTU, Bengaluru</p>
+          </div>
+          <div>
+            <div class="img-box">
+              <img src="{% static 'images/phone.png' %}" width="12px" alt="Phone Icon">
+            </div>
+            <p>+91 6360221160</p>
+          </div>
+          <div>
+            <div class="img-box">
+              <img src="{% static 'images/mail.png' %}" width="18px" alt="Email Icon">
+            </div>
+            <p>karanshousemintai@gmail.com</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Info -->
+      <div class="col-md-3">
+        <div class="info_info">
+          <h5>Project Overview</h5>
+          <p>
+            Housemint-AI is an intelligent real estate web app that predicts house prices using machine learning and historical housing data. Designed for transparency, speed, and insight-driven decisions.
+          </p>
+        </div>
+      </div>
+
+      <!-- Technical Details -->
+      <div class="col-md-3">
+        <div class="info_links">
+          <h5>Technology Stack</h5>
+          <ul>
+            <li><a href="#">Python & Django (Backend)</a></li>
+            <li><a href="#">Scikit-learn & Pandas (ML)</a></li>
+            <li><a href="#">HTML, CSS, JS (Frontend)</a></li>
+            <li><a href="#">CSV Dataset, Static Files</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Newsletter & Social -->
+      <div class="col-md-3">
+        <div class="info_form">
+          <h5>Newsletter</h5>
+          <form action="">
+            <input type="email" placeholder="Enter your email">
+            <button>Subscribe</button>
+          </form>
+          <div class="social_box">
+            <a href="#"><img src="{% static 'images/fb.png' %}" alt="Facebook"></a>
+            <a href="#"><img src="{% static 'images/twitter.png' %}" alt="Twitter"></a>
+            <a href="#"><img src="{% static 'images/linkedin.png' %}" alt="LinkedIn"></a>
+            <a href="#"><img src="{% static 'images/youtube.png' %}" alt="YouTube"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end info_section -->
+
+
+  <!-- footer section -->
+  <section class="container-fluid footer_section ">
+    <div class="container">
+      <p>
+        &copy; <span id="displayYear"></span> All Rights Reserved By
+        <a href="https://html.design/">KARNA</a>
+      </p>
+    </div>
+  </section>
+  <!-- end  footer section -->
+
+
+  <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+
+{% endblock %}

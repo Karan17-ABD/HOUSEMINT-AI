@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Feedback Records - Admin</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #eef2f5;
+    }
+    .feedback-table {
+      margin: 40px auto;
+      max-width: 90%;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container feedback-table">
+    <h3 class="mb-4">📋 Feedback Submissions</h3>
+    <table class="table table-bordered table-striped table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Rating</th>
+          <th>Message</th>
+          <th>Submitted At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for fb in feedbacks %}
+        <tr>
+          <td>{{ fb.name }}</td>
+          <td>{{ fb.email }}</td>
+          <td>{{ fb.rating }} ★</td>
+          <td>{{ fb.message }}</td>
+          <td>{{ fb.submitted_at }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center">No feedback submitted yet.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div>
+      <a href="adminlogin" class="btn btn-secondary mt-3">← Back to Admin Panel</a>
+    </div>
+    
+  </div>
+</body>
+</html>

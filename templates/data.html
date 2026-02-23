@@ -1,0 +1,207 @@
+{% extends "nav.html" %}
+{% block content %}
+{% load static %}
+
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background: white;   /* pure white */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .form-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 90vh;
+        padding: 30px;
+    }
+
+    .form-container {
+        background: #fff;
+        border-radius: 18px;
+        overflow: hidden;
+        width: 100%;
+        max-width: 750px;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+        transition: transform 0.3s ease;
+        animation: fadeIn 0.7s ease;
+    }
+    .form-container:hover {
+        transform: translateY(-3px);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Blue Gradient Header */
+    .form-header {
+        background: linear-gradient(90deg, #0f62fe, #3a8ef6);
+        padding: 28px;
+        text-align: center;
+        color: #fff;
+    }
+    .form-header h2 {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0;
+    }
+    .form-header span {
+        display: block;
+        font-size: 14px;
+        color: rgba(255,255,255,0.8);
+        margin-top: 6px;
+    }
+
+    /* Body */
+    .form-body {
+        padding: 40px 45px;
+    }
+
+    label {
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .form-control {
+        border-radius: 12px;
+        padding: 14px 16px;
+        border: 1px solid #ccd6dd;
+        font-size: 15px;
+        height: 50px;
+        background: #fafbfc;
+        transition: 0.25s ease;
+    }
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 6px rgba(0,123,255,0.25);
+        background: #fff;
+    }
+    select.form-control {
+        height: 50px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    /* Button */
+    .btn-submit {
+        width: 100%;
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        color: #fff;
+        font-weight: 600;
+        font-size: 16px;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        transition: 0.3s ease;
+        margin-top: 15px;
+    }
+    .btn-submit:hover {
+        background: linear-gradient(90deg, #0056b3, #007bff);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        transform: translateY(-2px);
+    }
+
+    /* Paragraphs (if used below form) */
+    p {
+        font-size: 17px;
+        line-height: 1.8;
+        color: #444;
+        max-width: 800px;
+        margin: 0 auto 20px;
+        text-align: justify;
+        text-justify: inter-word;
+        hyphens: auto;
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+    }
+</style>
+
+<div class="form-wrapper">
+    <div class="form-container">
+        
+        <!-- Form Header -->
+        <div class="form-header">
+            <h2>🏡 HouseMintAI – Price Estimator</h2>
+            <span>Smarter Decisions with Data-Driven Predictions</span>
+        </div>
+
+        <!-- Form Body -->
+        <div class="form-body">
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- Location -->
+                <div class="form-group">
+                    <label for="location">📍 Location</label>
+                    <select class="form-control" id="location" name="location" required>
+                        <option value="" disabled selected>-- Select Location --</option>
+                        {% for loc in locations %}
+                            <option value="{{ loc }}">{{ loc }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Area Type -->
+                <div class="form-group">
+                    <label for="area_type">🏘️ Area Type</label>
+                    <select class="form-control" id="area_type" name="area_type" required>
+                        <option value="" disabled selected>-- Select Area Type --</option>
+                        {% for atype in area_types %}
+                            <option value="{{ atype }}">{{ atype }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Sqft -->
+                <div class="form-group">
+                    <label for="sqft">📐 Total Sqft</label>
+                    <input type="number" class="form-control" id="sqft" name="sqft" placeholder="Enter total area" required>
+                </div>
+
+                <!-- BHK -->
+                <div class="form-group">
+                    <label for="bhk">🛏️ BHK</label>
+                    <select class="form-control" id="bhk" name="bhk" required>
+                        <option value="" disabled selected>-- Select BHK --</option>
+                        <option value="1">1 </option>
+                        <option value="2">2 </option>
+                        <option value="3">3 </option>
+                    </select>
+                </div>
+
+                <!-- Bathrooms -->
+                <div class="form-group">
+                    <label for="bath">🚿 Bathrooms</label>
+                    <select class="form-control" id="bath" name="bath" required>
+                        <option value="" disabled selected>-- Select Bathrooms --</option>
+                        <option value="1">1 </option>
+                        <option value="2">2 </option>
+                        <option value="3">3 </option>
+                    </select>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn-submit">🔮 Predict Price</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Please wait message script -->
+<script>
+    document.querySelector("form").addEventListener("submit", function() {
+        const btn = document.querySelector(".btn-submit");
+        btn.disabled = true;
+        btn.innerHTML = "⏳ Please wait... Processing your prediction...";
+    });
+</script>
+
+
+{% endblock %}

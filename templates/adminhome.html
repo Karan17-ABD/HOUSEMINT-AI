@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Admin Dashboard - HouseMintAI</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f4f8;
+      overflow: hidden;
+      perspective: 1200px; /* 3D perspective */
+    }
+
+    /* Floating houses with depth layers */
+    .floating-house {
+      position: absolute;
+      width: 60px;
+      opacity: 0.07;
+      animation: float 20s linear infinite;
+      transform-style: preserve-3d;
+    }
+
+    .floating-house:nth-child(1) { top: 10%; left: 15%; animation-duration: 18s; transform: translateZ(50px); }
+    .floating-house:nth-child(2) { top: 40%; left: 70%; animation-duration: 22s; transform: translateZ(30px); }
+    .floating-house:nth-child(3) { top: 70%; left: 25%; animation-duration: 20s; transform: translateZ(70px); }
+    .floating-house:nth-child(4) { top: 30%; left: 50%; animation-duration: 25s; transform: translateZ(40px); }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotateX(0deg) rotateY(0deg); }
+      50% { transform: translateY(-30px) rotateX(180deg) rotateY(180deg); }
+      100% { transform: translateY(0px) rotateX(360deg) rotateY(360deg); }
+    }
+
+    /* Glass card with 3D tilt */
+    .glass-card {
+      position: relative;
+      z-index: 2;
+      background: #ffffffcc;
+      backdrop-filter: blur(15px);
+      border-radius: 18px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      border: 1px solid #e9ecef;
+      transform-style: preserve-3d;
+      transition: transform 0.3s ease;
+    }
+
+    body:hover .glass-card {
+      transform: rotateY(5deg) rotateX(3deg);
+    }
+
+    .glass-card img.logo {
+      width: 70px;
+      margin-bottom: 15px;
+    }
+
+    .glass-card h2 {
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-size: 22px;
+      letter-spacing: 0.5px;
+      color: #2c3e50;
+    }
+
+    .glass-card h3 {
+      font-weight: 500;
+      margin-bottom: 35px;
+      font-size: 18px;
+      color: #007bff;
+    }
+
+    .btn-admin {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 18px;
+      border-radius: 10px;
+      font-size: 17px;
+      transition: 0.3s ease-in-out;
+      font-weight: 500;
+    }
+
+    .btn-admin:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-contact { background-color: #007bff; color: #fff; border: none; }
+    .btn-feedback { background-color: #28a745; color: #fff; border: none; }
+    .btn-logout { background-color: #dc3545; color: #fff; border: none; }
+
+    .footer-text {
+      margin-top: 25px;
+      font-size: 13px;
+      color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating houses -->
+  <img src="{% static 'images/house-icon.png' %}" class="floating-house">
+  <img src="{% static 'images/house-icon.png' %}" class="floating-house">
+  <img src="{% static 'images/house-icon.png' %}" class="floating-house">
+  <img src="{% static 'images/house-icon.png' %}" class="floating-house">
+
+  <div class="glass-card">
+    <img src="{% static 'images/karan1logo.png' %}" alt="HouseMintAI Logo" class="logo">
+    <h3>Welcome, Admin</h3>
+    <h2>🏢 HouseMintAI Admin Panel</h2>
+
+    <a href="admin-contact-data" class="btn btn-admin btn-contact">
+      📬 Check Contact Data
+    </a>
+
+    <a href="admin-feedback-data" class="btn btn-admin btn-feedback">
+      💬 Check Feedback Data
+    </a>
+
+    <form method="post" action="logout">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-admin btn-logout">🚪 Logout</button>
+    </form>
+
+    <div class="footer-text">© 2025 HouseMintAI</div>
+  </div>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>

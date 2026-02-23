@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🏡 Housemint-AI Chatbot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f0f4f8, #d9e6f2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 95%;
+      max-width: 700px;
+      height: 90vh;
+      background: #fff;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: linear-gradient(90deg, #43cea2, #185a9d);
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .chat-log {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #f7f9fb;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scroll-behavior: smooth;
+    }
+
+    .chat-message {
+      display: flex;
+      width: 100%;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .chat-message.user { justify-content: flex-end; }
+    .chat-message.bot { justify-content: flex-start; }
+
+    .bubble {
+      padding: 12px 18px;
+      max-width: 75%;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      white-space: pre-line;
+      word-wrap: break-word;
+    }
+
+    .chat-message.user .bubble {
+      background: #d0e8ff;
+      color: #0b5394;
+      border-bottom-right-radius: 0;
+    }
+
+    .chat-message.bot .bubble {
+      background: #e0f7ea;
+      color: #256029;
+      border-bottom-left-radius: 0;
+    }
+
+    .chat-input-container {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      background: #fff;
+      border-top: 1px solid #ddd;
+      gap: 10px;
+    }
+
+    .chat-input-container input {
+      flex: 1;
+      padding: 14px 18px;
+      border-radius: 50px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .chat-input-container input:focus {
+      border-color: #43cea2;
+      box-shadow: 0 0 8px rgba(67, 206, 162, 0.3);
+    }
+
+    .chat-input-container button {
+      background: linear-gradient(90deg, #43cea2, #185a9d);
+      color: #fff;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .chat-input-container button:hover {
+      background: linear-gradient(90deg, #2e8b73, #0b3d6e);
+    }
+
+    .help-section {
+      padding: 15px 20px;
+      background: #f1f5f9;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-top: 1px solid #ddd;
+    }
+
+    .suggestion-btn {
+      padding: 8px 16px;
+      border-radius: 30px;
+      border: none;
+      background: #185a9d;
+      color: #fff;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.3s;
+      flex-shrink: 0;
+    }
+
+    .suggestion-btn:hover { background: #0b3d6e; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media(max-width: 480px){
+      .bubble { font-size: 0.9rem; max-width: 85%; }
+      .chat-header { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">🤖 Housemint-AI Assistant</div>
+
+    <div class="chat-log" id="chatLog">
+      {% for user, bot in chat_history %}
+        <div class="chat-message user"><div class="bubble">You: {{ user }}</div></div>
+        <div class="chat-message bot"><div class="bubble">Bot: {{ bot }}</div></div>
+      {% empty %}
+        <div class="chat-message bot"><div class="bubble">Hello! 👋 I can help with Bengaluru real estate insights. Try asking: "Average price in Whitefield" or "Compare Hebbal and Indiranagar".</div></div>
+      {% endfor %}
+    </div>
+
+    <div class="help-section">
+      <button class="suggestion-btn" onclick="fillQuestion('Average price in Whitefield')">💰 Avg price Whitefield</button>
+      <button class="suggestion-btn" onclick="fillQuestion('Compare Hebbal and Indiranagar')">⚖ Compare Hebbal & Indiranagar</button>
+      <button class="suggestion-btn" onclick="fillQuestion('2 BHK in Marathahalli')">🏠 2BHK in Marathahalli</button>
+      <button class="suggestion-btn" onclick="fillQuestion('Most expensive house in HSR Layout')">💎 Expensive in HSR</button>
+    </div>
+
+    <form method="post" class="chat-input-container" id="chatForm">
+      {% csrf_token %}
+      <input type="text" id="userInput" name="user_input" placeholder="Type your question..." autocomplete="off" required>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script>
+    const chatLog = document.getElementById("chatLog");
+    const chatForm = document.getElementById("chatForm");
+    const userInput = document.getElementById("userInput");
+
+    function fillQuestion(question) {
+      userInput.value = question;
+      chatForm.submit();
+    }
+
+    // Press Enter to send
+    userInput.addEventListener("keypress", function(e){
+      if(e.key === "Enter") {
+        e.preventDefault();
+        chatForm.submit();
+      }
+    });
+
+    // Auto-scroll to bottom after submit
+    window.onload = () => {
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+  </script>
+</body>
+</html>

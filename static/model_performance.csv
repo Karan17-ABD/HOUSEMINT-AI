@@ -1,0 +1,5 @@
+Model,Train_Accuracy_%,Test_Accuracy_%
+Linear Regression,91.27,80.49
+Decision Tree,99.99,76.64
+Random Forest,96.53,79.66
+XGBoost,95.94,80.94

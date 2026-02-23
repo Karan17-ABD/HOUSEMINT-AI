@@ -1,0 +1,7 @@
+{
+  "best_model": "XGBoost",
+  "best_test_r2_percent": 78.39,
+  "results_csv": "model_results_all.csv",
+  "plot_png": "compare_models_all.png",
+  "model_pkl": "best_model.pkl"
+}
